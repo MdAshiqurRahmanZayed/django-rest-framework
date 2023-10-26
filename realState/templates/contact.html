@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mb-5">
+     <h1>Contact:{{request.user}}</h1>
+     <form  method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{form|crispy}}
+          <input type="hidden" name="token" id="token">
+          <button class="mt-4 btn btn-primary" type="submit">Save</button>
+     </form>
+</div>
+{% block js %}
+<script>
+// Check if local storage is available in the current browser
+if (typeof(Storage) !== "undefined") {
+  // Get the token from local storage
+  var token = localStorage.getItem("token"); // Replace "your_token_key" with the actual key used to store the token
+
+  // Check if the token exists in local storage
+  if (token) {
+    console.log("Token found in local storage:", token);
+    document.getElementById('token').value = token;
+  } else {
+    console.log("Token not found in local storage");
+  }
+} else {
+  console.log("Local storage is not supported in this browser.");
+}
+</script>
+
+{% endblock js %}
+{% endblock content %}
